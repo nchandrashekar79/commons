@@ -28,6 +28,13 @@ CREATE TABLE employees (
     is_active BOOLEAN DEFAULT TRUE
 );
 
+-- 2. Create the departments table
+CREATE TABLE departments (
+    department_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    department_name VARCHAR(50) UNIQUE NOT NULL,
+    location VARCHAR(50) NOT NULL
+);
+
 -- Insert a sample row into the new table
 INSERT INTO employees (first_name, last_name, email, salary)
 VALUES ('Priya', 'Sharma', 'priya.sharma@example.com', 85000.00);
@@ -55,5 +62,27 @@ VALUES
     ('Lakshmi', 'Narayanan', 'lakshmi.n@example.com', 118000.00, '2018-07-22', TRUE),
     ('Pranav', 'Tiwari', 'pranav.tiwari@example.com', 71000.00, '2023-11-14', FALSE),
     ('Rhea', 'Kapoor', 'rhea.kapoor@example.com', 84500.00, '2022-08-03', TRUE);
+
+-- 2. Insert 5 sample departments
+INSERT INTO departments (department_name, location)
+VALUES 
+    ('Engineering', 'Hyderabad'),
+    ('Product Management', 'Bengaluru'),
+    ('Human Resources', 'Mumbai'),
+    ('Finance', 'Delhi'),
+    ('Research & Development', 'Pune');
+
+
+-- 3. Add department_id foreign key column to employees
+ALTER TABLE employees
+ADD COLUMN department_id INT REFERENCES departments(department_id);
+
+-- 4. Assign departments to your existing employees (leaving a few as NULL to test LEFT JOINs)
+UPDATE employees SET department_id = 1 WHERE employee_id IN (1, 3, 6, 9, 14, 18); -- Engineering
+UPDATE employees SET department_id = 2 WHERE employee_id IN (2, 7, 11, 17, 20);   -- Product Management
+UPDATE employees SET department_id = 3 WHERE employee_id IN (4, 8, 12, 16);       -- Human Resources
+UPDATE employees SET department_id = 4 WHERE employee_id IN (5, 10, 15);          -- Finance
+-- Employees 13, 19, and 21 (Priya Sharma) remain NULL (unassigned)
+
 
 
