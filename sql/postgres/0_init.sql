@@ -85,4 +85,7 @@ UPDATE employees SET department_id = 4 WHERE employee_id IN (5, 10, 15);        
 -- Employees 13, 19, and 21 (Priya Sharma) remain NULL (unassigned)
 
 
+select * from employees;
+
+
 
